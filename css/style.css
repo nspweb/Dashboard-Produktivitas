@@ -228,14 +228,20 @@ a { color: var(--navy-soft); }
 
 .file-chip {
   display: flex; align-items: center; gap: 10px;
-  background: #FAFBFD; border: 1px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 10px;
-  font-size: 13px;
+  color: var(--ink); font-size: 13px;
 }
 .file-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); flex: none; }
-.file-chip .name { font-weight: 500; }
+.file-chip .name { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
 .file-chip .meta { color: var(--text-faint); font-size: 11.5px; }
 .file-chip button { margin-left: auto; }
+
+@media (prefers-color-scheme: dark) {
+  .file-chip { background: #1B2435; border-color: #52617B; }
+  .file-chip .name { color: #F1F4FA; }
+  .file-chip .meta { color: #AEBBD1; }
+}
 
 /* ---- Buttons ---- */
 .btn {

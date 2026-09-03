@@ -311,7 +311,7 @@ def generate_official_report(
     if logo_path.exists():
         ws_master._images = []
         logo = ExcelImage(str(logo_path))
-        logo.width, logo.height = 180, 158
+        logo.width, logo.height = 105, 92
         logo.anchor = "B1"
         ws_master.add_image(logo)
 
@@ -348,7 +348,9 @@ def generate_official_report(
         for col in all_cols:
             ws_master[f"{col}{row}"] = None
         for i, val in enumerate(values):
-            ws_master[f"{all_cols[i]}{row}"] = val
+            cell = ws_master[f"{all_cols[i]}{row}"]
+            cell.value = val
+            cell.alignment = cell.alignment.copy(horizontal="center", vertical="center")
 
     _rewrite_cross_sheet_formulas(wb, row_map, canonical_questions, all_cols)
 
