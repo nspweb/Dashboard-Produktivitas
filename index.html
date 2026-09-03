@@ -156,10 +156,17 @@
                 <input type="text" id="monevInstructorName">
               </div>
             </div>
-            <div class="field">
-              <label class="field-label">Teks tanggal pelaksanaan *</label>
-              <input type="text" id="monevDateText" placeholder="TGL Senin 3 Agustus S.D Jumat 28 Agustus 2026">
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label">Tanggal mulai pelatihan *</label>
+                <input type="date" id="monevDateStart">
+              </div>
+              <div class="field">
+                <label class="field-label">Tanggal selesai pelatihan *</label>
+                <input type="date" id="monevDateEnd">
+              </div>
             </div>
+            <div class="field-hint" id="monevDatePreview"></div>
 
             <button class="btn btn-primary" id="monevGenerateReportBtn">Buat Laporan Resmi (.xlsx)</button>
             <div id="monevReportMsg"></div>

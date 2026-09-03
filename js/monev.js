@@ -282,6 +282,29 @@
   });
 
   // ---------------------------------------------------------------- laporan resmi
+  const MONEV_DAYS = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const MONEV_MONTHS = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+  function formatMonevDateRange(start, end) {
+    const startDate = new Date(`${start}T00:00:00`);
+    const endDate = new Date(`${end}T00:00:00`);
+    const formatDate = (date) => `${MONEV_DAYS[date.getDay()]} ${date.getDate()} ${MONEV_MONTHS[date.getMonth() + 1]}`;
+    return `TGL ${formatDate(startDate)} S.D ${formatDate(endDate)} ${endDate.getFullYear()}`;
+  }
+
+  function refreshMonevDatePreview() {
+    const start = $("monevDateStart").value;
+    const end = $("monevDateEnd").value;
+    const preview = $("monevDatePreview");
+    if (!start || !end) { preview.textContent = ""; return; }
+    preview.textContent = end < start ? "Tanggal selesai harus sama atau setelah tanggal mulai." : `Pratinjau tanggal: ${formatMonevDateRange(start, end)}`;
+  }
+
+  $("monevDateStart").addEventListener("change", () => {
+    $("monevDateEnd").min = $("monevDateStart").value;
+    refreshMonevDatePreview();
+  });
+  $("monevDateEnd").addEventListener("change", refreshMonevDatePreview);
   $("monevReportProgram").addEventListener("change", updateReportInfo);
   function updateReportInfo() {
     const program = $("monevReportProgram").value;
@@ -303,12 +326,18 @@
     const rows = state.rows.filter((r) => String(r[state.programCol]) === program);
     const training_title = $("monevTrainingTitle").value.trim();
     const instructor_name = $("monevInstructorName").value.trim();
-    const date_text = $("monevDateText").value.trim();
+    const dateStart = $("monevDateStart").value;
+    const dateEnd = $("monevDateEnd").value;
+    const date_text = dateStart && dateEnd ? formatMonevDateRange(dateStart, dateEnd) : "";
 
     Util.clear($("monevReportMsg"));
     if (!rows.length) { Util.notice($("monevReportMsg"), "error", "Tidak ada responden pada program ini."); return; }
     if (!training_title || !instructor_name || !date_text) {
-      Util.notice($("monevReportMsg"), "warn", "Lengkapi dulu nama pelatihan, nama instruktur, dan teks tanggal.");
+      Util.notice($("monevReportMsg"), "warn", "Lengkapi nama pelatihan, nama instruktur, tanggal mulai, dan tanggal selesai.");
+      return;
+    }
+    if (dateEnd < dateStart) {
+      Util.notice($("monevReportMsg"), "error", "Tanggal selesai tidak boleh sebelum tanggal mulai.");
       return;
     }
 
