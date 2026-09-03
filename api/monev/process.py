@@ -12,6 +12,24 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 15 * 1024 * 1024  # 15MB
 
 
+def _json_safe_rows(rows):
+    """Convert pandas missing values to JSON-compatible null values."""
+    safe_rows = []
+    for row in rows:
+        safe_row = {}
+        for key, value in row.items():
+            try:
+                missing = pd.isna(value)
+                if not hasattr(missing, "__len__") and bool(missing):
+                    safe_row[key] = None
+                    continue
+            except (TypeError, ValueError):
+                pass
+            safe_row[key] = value.item() if hasattr(value, "item") else value
+        safe_rows.append(safe_row)
+    return safe_rows
+
+
 @app.route("/", defaults={"path": ""}, methods=["POST", "GET"])
 @app.route("/<path:path>", methods=["POST", "GET"])
 def handler(path):
@@ -46,6 +64,7 @@ def handler(path):
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
+    result["rows"] = _json_safe_rows(result.get("rows", []))
     result["sheet_choice"] = chosen_sheet
     result["sheets"] = sheet_names
     result["total_rows"] = len(result["rows"])
