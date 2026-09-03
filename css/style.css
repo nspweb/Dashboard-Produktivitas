@@ -134,6 +134,13 @@ a { color: var(--navy-soft); }
 .main { width: 100%; padding: 26px 32px 60px; max-width: 1280px; min-width: 0; }
 
 .page-header { margin-bottom: 20px; padding: 4px 0 14px; border-bottom: 1px solid rgba(201,208,220,0.7); }
+.page-header-monev { position: relative; overflow: hidden; }
+.page-header-monev::after {
+  content: "MONEV";
+  position: absolute; right: 6px; bottom: 8px;
+  color: rgba(169,120,46,0.12); font-size: 44px; font-weight: 700;
+  letter-spacing: 0.08em; line-height: 1;
+}
 .page-title { font-size: 21px; font-weight: 600; margin: 0 0 4px; color: var(--ink); }
 .page-sub { color: var(--text-muted); font-size: 13.5px; margin: 0; }
 
@@ -156,6 +163,7 @@ a { color: var(--navy-soft); }
   margin: 0 0 3px;
   display: flex; align-items: center; gap: 8px;
 }
+.section-mark { color: var(--gold); font-size: 18px; line-height: 1; }
 .card-sub { color: var(--text-muted); font-size: 12.5px; margin: 0 0 14px; }
 
 /* ---- Upload step ---- */
@@ -318,6 +326,15 @@ table.data-table tbody tr:last-child td { border-bottom: none; }
 .notice-warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #EFDBAF; }
 .notice-error { background: var(--danger-bg); color: var(--danger); border: 1px solid #F1C9C7; }
 .notice-success { background: var(--success-bg); color: var(--success); border: 1px solid #C7E6D4; }
+.template-note {
+  display: flex; align-items: center; gap: 8px; margin: -4px 0 16px;
+  color: var(--text-muted); font-size: 12.3px;
+}
+.template-note-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--success-bg); color: var(--success); font-weight: 700;
+}
 
 /* ---- Comments ---- */
 .comment-group { margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
