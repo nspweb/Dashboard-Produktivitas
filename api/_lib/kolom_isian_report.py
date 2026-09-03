@@ -8,6 +8,7 @@ from copy import copy
 import openpyxl
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.worksheet.page import PageMargins
+from openpyxl.worksheet.pagebreak import Break
 from openpyxl.utils import get_column_letter
 
 PRIMARY_COLS = [get_column_letter(c) for c in range(3, 19)]      # C..R (16)
@@ -103,7 +104,6 @@ def _configure_print_layout(ws):
     ws.sheet_properties.pageSetUpPr.fitToPage = True
     ws.page_margins = PageMargins(left=0.2, right=0.2, top=0.35, bottom=0.35, header=0.15, footer=0.15)
     ws.print_options.horizontalCentered = True
-    ws.print_title_rows = "10:13"
 
 
 def generate_kolom_isian_report(
@@ -169,6 +169,7 @@ def generate_kolom_isian_report(
     wb.calculation.fullCalcOnLoad = True
 
     _configure_print_layout(ws)
+    ws.row_breaks.append(Break(id=22))
 
     buf = BytesIO()
     wb.save(buf)

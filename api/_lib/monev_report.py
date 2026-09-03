@@ -10,6 +10,7 @@ from copy import copy
 import openpyxl
 from openpyxl.styles import Border, Side, Font, Alignment
 from openpyxl.worksheet.page import PageMargins
+from openpyxl.worksheet.pagebreak import Break
 from openpyxl.utils import get_column_letter
 from openpyxl.drawing.image import Image as ExcelImage
 
@@ -248,7 +249,6 @@ def _configure_print_layout(ws):
     ws.sheet_properties.pageSetUpPr.fitToPage = True
     ws.page_margins = PageMargins(left=0.2, right=0.2, top=0.35, bottom=0.35, header=0.15, footer=0.15)
     ws.print_options.horizontalCentered = True
-    ws.print_title_rows = "10:13"
 
 
 def _update_divisor_everywhere(wb, n_respondents: int, use_secondary: bool):
@@ -357,6 +357,10 @@ def generate_official_report(
     _sync_titles_and_separator_lines(wb)
     for sheet in wb.worksheets:
         _configure_print_layout(sheet)
+    # Keep each evaluation section together. The template already contains
+    # its own section headers, so repeating rows globally causes overlap.
+    for row in (22, 30, 38):
+        ws_master.row_breaks.append(Break(id=row - 1))
 
     ws_master["A6"] = REPORT_TITLE
     if training_title:
