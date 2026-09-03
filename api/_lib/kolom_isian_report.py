@@ -8,7 +8,6 @@ from copy import copy
 import openpyxl
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.worksheet.page import PageMargins
-from openpyxl.worksheet.pagebreak import Break
 from openpyxl.utils import get_column_letter
 
 PRIMARY_COLS = [get_column_letter(c) for c in range(3, 19)]      # C..R (16)
@@ -169,7 +168,6 @@ def generate_kolom_isian_report(
     wb.calculation.fullCalcOnLoad = True
 
     _configure_print_layout(ws)
-    ws.row_breaks.append(Break(id=22))
 
     buf = BytesIO()
     wb.save(buf)

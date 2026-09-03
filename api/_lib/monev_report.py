@@ -10,7 +10,6 @@ from copy import copy
 import openpyxl
 from openpyxl.styles import Border, Side, Font, Alignment
 from openpyxl.worksheet.page import PageMargins
-from openpyxl.worksheet.pagebreak import Break
 from openpyxl.utils import get_column_letter
 from openpyxl.drawing.image import Image as ExcelImage
 
@@ -357,10 +356,6 @@ def generate_official_report(
     _sync_titles_and_separator_lines(wb)
     for sheet in wb.worksheets:
         _configure_print_layout(sheet)
-    # Keep each evaluation section together. The template already contains
-    # its own section headers, so repeating rows globally causes overlap.
-    for row in (22, 30, 38):
-        ws_master.row_breaks.append(Break(id=row - 1))
 
     ws_master["A6"] = REPORT_TITLE
     if training_title:
