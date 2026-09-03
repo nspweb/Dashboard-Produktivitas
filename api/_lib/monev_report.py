@@ -238,7 +238,11 @@ def _stabilize_master_table(ws):
 
 def _configure_print_layout(ws):
     ws.page_setup.orientation = "landscape"
-    ws.page_setup.paperSize = ws.PAPERSIZE_A4
+    # F4/Folio: 215 x 330 mm. Set physical dimensions because F4 is not
+    # represented consistently by Excel/LibreOffice paper-size enums.
+    ws.page_setup.paperSize = None
+    ws.page_setup.paperWidth = "215mm"
+    ws.page_setup.paperHeight = "330mm"
     ws.page_setup.fitToWidth = 1
     ws.page_setup.fitToHeight = 0
     ws.sheet_properties.pageSetUpPr.fitToPage = True
