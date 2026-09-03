@@ -168,6 +168,7 @@ def generate_kolom_isian_report(
     wb.calculation.fullCalcOnLoad = True
 
     _configure_print_layout(ws)
+    ws.print_area = ["A1:AC20", "A21:AC30"]
 
     buf = BytesIO()
     wb.save(buf)

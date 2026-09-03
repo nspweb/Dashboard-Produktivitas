@@ -356,6 +356,9 @@ def generate_official_report(
     _sync_titles_and_separator_lines(wb)
     for sheet in wb.worksheets:
         _configure_print_layout(sheet)
+    ws_master.print_area = [
+        "A1:AC19", "A20:AC28", "A29:AC36", "A37:AC45",
+    ]
 
     ws_master["A6"] = REPORT_TITLE
     if training_title:
