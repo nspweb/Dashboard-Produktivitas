@@ -3,11 +3,13 @@ Diporting dari report_generator.py asli -- logika inti TIDAK diubah, hanya
 dependensi Streamlit & konversi PDF (LibreOffice) yang dihapus dari file ini."""
 import re
 import difflib
+from pathlib import Path
 from io import BytesIO
 
 import openpyxl
 from openpyxl.styles import Border, Side, Font, Alignment
 from openpyxl.utils import get_column_letter
+from openpyxl.drawing.image import Image as ExcelImage
 
 PRIMARY_COLS = [get_column_letter(c) for c in range(3, 19)]   # C..R (16)
 SECONDARY_COLS = [get_column_letter(c) for c in range(20, 28)]  # T..AA (8)
@@ -302,6 +304,16 @@ def generate_official_report(
 
     wb = openpyxl.load_workbook(template_path)
     ws_master = wb[MASTER_SHEET]
+
+    # EMF logos in the original workbook are dropped by openpyxl on save.
+    # Replace the master-sheet header image with a PNG that survives export.
+    logo_path = Path(template_path).with_name("logo_kemnaker.png")
+    if logo_path.exists():
+        ws_master._images = []
+        logo = ExcelImage(str(logo_path))
+        logo.width, logo.height = 180, 158
+        logo.anchor = "B1"
+        ws_master.add_image(logo)
 
     _fix_secondary_header_numbers(ws_master)
     _sync_titles_and_separator_lines(wb)

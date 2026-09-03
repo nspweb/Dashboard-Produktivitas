@@ -158,6 +158,15 @@ a { color: var(--navy-soft); }
   transition: box-shadow .18s ease, border-color .18s ease;
 }
 .card:hover { border-color: #D3D9E3; box-shadow: 0 5px 18px rgba(16, 24, 43, 0.07); }
+.upload-card {
+  position: relative; overflow: hidden;
+  background: linear-gradient(118deg, rgba(255,255,255,0.98) 0%, rgba(247,249,252,0.96) 70%, rgba(242,231,210,0.52) 100%);
+}
+.upload-card::after {
+  content: "↑"; position: absolute; right: 28px; top: 17px;
+  color: rgba(169,120,46,0.18); font-size: 66px; font-weight: 700; line-height: 1;
+}
+.upload-kicker { color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: 0.13em; margin-bottom: 5px; }
 .card-title {
   font-weight: 600; font-size: 14.5px; color: var(--ink);
   margin: 0 0 3px;
@@ -335,6 +344,8 @@ table.data-table tbody tr:last-child td { border-bottom: none; }
   width: 20px; height: 20px; border-radius: 50%;
   background: var(--success-bg); color: var(--success); font-weight: 700;
 }
+.template-note strong { color: var(--navy-soft); }
+#tab-monev-resmi .card, #pbkDashboard > .card:last-child { border-top: 3px solid var(--gold); }
 
 /* ---- Comments ---- */
 .comment-group { margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
