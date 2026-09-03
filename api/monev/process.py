@@ -18,14 +18,18 @@ def _json_safe_rows(rows):
     for row in rows:
         safe_row = {}
         for key, value in row.items():
+            if value is None or value is pd.NA:
+                safe_row[key] = None
+                continue
             try:
                 missing = pd.isna(value)
-                if not hasattr(missing, "__len__") and bool(missing):
+                if getattr(missing, "ndim", 0) == 0 and bool(missing):
                     safe_row[key] = None
                     continue
             except (TypeError, ValueError):
                 pass
-            safe_row[key] = value.item() if hasattr(value, "item") else value
+            converted = value.item() if hasattr(value, "item") else value
+            safe_row[key] = None if converted is pd.NA else converted
         safe_rows.append(safe_row)
     return safe_rows
 
