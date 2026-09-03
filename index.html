@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dasbor Evaluasi &amp; Produktivitas Pelatihan</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EP</div>
+      <div class="brand-text">
+        <div class="brand-title">Evaluasi Pelatihan</div>
+        <div class="brand-sub">Dasbor &amp; Laporan Resmi</div>
+      </div>
+    </div>
+
+    <nav class="nav-group">
+      <div class="nav-label">SISTEM</div>
+      <div class="nav-item active" data-nav="monev">
+        <span class="nav-icon">&#9633;</span> Rekap Monev
+      </div>
+      <div class="nav-item" data-nav="pbk">
+        <span class="nav-icon">&#9670;</span> Pre &amp; Post-Test
+      </div>
+    </nav>
+
+    <div class="nav-status" id="sidebarStatus">
+      <b>Belum ada data</b>
+      Unggah file pada salah satu sistem untuk mulai.
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============================= MONEV ============================= -->
+    <section id="view-monev" class="view active">
+      <div class="page-header">
+        <h1 class="page-title">Rekap Monev Penyelenggaraan Pelatihan</h1>
+        <p class="page-sub">Filter, analisis, dan ekspor data evaluasi peserta pelatihan.</p>
+      </div>
+
+      <!-- Upload -->
+      <div class="card" id="monevUploadCard">
+        <div class="card-title"><span class="step-badge">1</span>Unggah Data Evaluasi</div>
+        <p class="card-sub">Unggah file Excel (.xlsx) hasil Google Form evaluasi pelatihan.</p>
+
+        <label class="dropzone" id="monevDropzone">
+          <input type="file" id="monevFileInput" accept=".xlsx">
+          <div class="dz-title">Klik untuk pilih file, atau seret ke sini</div>
+          <div class="dz-hint">Format .xlsx &middot; maksimum 15 MB</div>
+        </label>
+
+        <div id="monevFileChip"></div>
+        <div id="monevSheetChoice"></div>
+        <div id="monevMsg"></div>
+
+        <div style="margin-top:14px;">
+          <button class="btn btn-primary" id="monevProcessBtn" disabled>Proses Data</button>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="monevDashboard" style="display:none;">
+        <div class="card">
+          <div class="card-title">Filter</div>
+          <label class="field-label">Program pelatihan yang diikuti</label>
+          <div class="select-multi" id="monevProgramFilter"></div>
+        </div>
+
+        <div class="kpi-row" id="monevKpiRow"></div>
+
+        <div class="tabbar">
+          <button class="tab-btn active" data-tab="monev-data">Data Terfilter</button>
+          <button class="tab-btn" data-tab="monev-ringkasan">Ringkasan &amp; Grafik</button>
+          <button class="tab-btn" data-tab="monev-komentar">Komentar &amp; Keluhan</button>
+          <button class="tab-btn" data-tab="monev-rekap">Rekap Komentar</button>
+          <button class="tab-btn" data-tab="monev-resmi">Laporan Resmi</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-monev-data">
+          <div class="card">
+            <div class="card-title">Data Responden (sesuai filter)</div>
+            <div class="table-wrap"><table class="data-table" id="monevDataTable"></table></div>
+            <div style="margin-top:14px; display:flex; gap:10px;">
+              <button class="btn" id="monevDownloadCsv">Unduh CSV</button>
+              <button class="btn" id="monevDownloadXlsx">Unduh Excel (data mentah)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-monev-ringkasan">
+          <div class="card">
+            <div class="card-title">Jumlah Responden per Program</div>
+            <canvas id="monevChartCount" height="90"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title">Rata-rata Skor per Aspek Pelatihan</div>
+            <canvas id="monevChartAvg" height="140"></canvas>
+          </div>
+          <div class="card" id="monevChartSrcCard" style="display:none;">
+            <div class="card-title">Sumber Informasi Pelatihan</div>
+            <canvas id="monevChartSrc" height="120"></canvas>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-monev-komentar">
+          <div class="card">
+            <div class="card-title">Komentar, Saran, dan Keluhan Peserta</div>
+            <div class="field" style="max-width:360px;">
+              <label class="field-label">Pilih jenis komentar</label>
+              <select id="monevCommentSelect"></select>
+            </div>
+            <div id="monevCommentList"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-monev-rekap">
+          <div class="card">
+            <div class="card-title">Rekap Komentar per Responden</div>
+            <p class="notice notice-info">Satu baris per responden. Kolom: NO. | Sumber Informasi | Komentar Pelatihan | Komentar Instruktur | Komentar Penyelenggaraan | Keluhan Penyelenggaraan. Responden dengan komentar kosong tetap disertakan.</p>
+            <div class="field" style="max-width:360px;">
+              <label class="field-label">Program pelatihan untuk rekap ini</label>
+              <select id="monevRecapProgram"></select>
+            </div>
+            <div id="monevRecapInfo"></div>
+            <button class="btn btn-primary" id="monevRecapBtn">Unduh Rekap Komentar (.xlsx)</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-monev-resmi">
+          <div class="card">
+            <div class="card-title">Ekspor ke Format Laporan Resmi</div>
+            <p class="notice notice-info">Mengikuti format resmi (kop surat, tabel nilai per peserta, kategori BAIK/SANGAT BAIK). Pilih satu program yang mewakili satu angkatan/kelas.</p>
+
+            <div class="field" style="max-width:360px;">
+              <label class="field-label">Program pelatihan untuk laporan ini</label>
+              <select id="monevReportProgram"></select>
+            </div>
+
+            <div id="monevReportInfo"></div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label">Nama pelatihan / kompetensi *</label>
+                <input type="text" id="monevTrainingTitle" placeholder="mis. INDUSTRI DAN JASA">
+              </div>
+              <div class="field">
+                <label class="field-label">Nama instruktur *</label>
+                <input type="text" id="monevInstructorName">
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">Teks tanggal pelaksanaan *</label>
+              <input type="text" id="monevDateText" placeholder="TGL Senin 3 Agustus S.D Jumat 28 Agustus 2026">
+            </div>
+
+            <button class="btn btn-primary" id="monevGenerateReportBtn">Buat Laporan Resmi (.xlsx)</button>
+            <div id="monevReportMsg"></div>
+
+            <div id="monevReportDownloads" style="display:none; margin-top:14px; gap:10px; display:none;">
+              <button class="btn" id="monevDownloadReportXlsx">Unduh Laporan Resmi (.xlsx)</button>
+              <button class="btn" id="monevConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= PBK ============================= -->
+    <section id="view-pbk" class="view">
+      <div class="page-header">
+        <h1 class="page-title">Dasbor Produktivitas Pelatihan</h1>
+        <p class="page-sub">Perbandingan hasil Pre-Test dan Post-Test peserta pelatihan.</p>
+      </div>
+
+      <div class="card" id="pbkUploadCard">
+        <div class="card-title"><span class="step-badge">1</span>Unggah Data Pre-Test &amp; Post-Test</div>
+        <p class="card-sub">Unggah minimal salah satu file (.xlsx) hasil Google Form. Kolom dideteksi otomatis.</p>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label">File Pre-Test (.xlsx)</label>
+            <label class="dropzone" id="pbkPreDropzone">
+              <input type="file" id="pbkPreFileInput" accept=".xlsx">
+              <div class="dz-title">Pilih file Pre-Test</div>
+              <div class="dz-hint">.xlsx</div>
+            </label>
+            <div id="pbkPreFileChip"></div>
+          </div>
+          <div>
+            <label class="field-label">File Post-Test (.xlsx)</label>
+            <label class="dropzone" id="pbkPostDropzone">
+              <input type="file" id="pbkPostFileInput" accept=".xlsx">
+              <div class="dz-title">Pilih file Post-Test</div>
+              <div class="dz-hint">.xlsx</div>
+            </label>
+            <div id="pbkPostFileChip"></div>
+          </div>
+        </div>
+
+        <div id="pbkMsg"></div>
+        <div style="margin-top:14px;">
+          <button class="btn btn-primary" id="pbkProcessBtn" disabled>Proses Data</button>
+        </div>
+      </div>
+
+      <div id="pbkDashboard" style="display:none;">
+        <div class="card">
+          <div class="card-title">Filter</div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Program</label>
+              <select id="pbkFilterProgram"></select>
+            </div>
+            <div class="field">
+              <label class="field-label">Kabupaten/Kota</label>
+              <select id="pbkFilterKabkota"></select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Jenis kelamin</label>
+              <select id="pbkFilterGender"></select>
+            </div>
+            <div class="field">
+              <label class="field-label">Cari nama atau NIK</label>
+              <input type="text" id="pbkFilterSearch" placeholder="Cari...">
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-row" id="pbkKpiRow"></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Rata-rata Skor per Aspek</div>
+            <p class="card-sub">Perbandingan Pre-Test dan Post-Test pada 10 aspek (skala 1&ndash;5)</p>
+            <canvas id="pbkChartBar" height="220"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title">Profil Kompetensi</div>
+            <p class="card-sub">Bentuk keseluruhan sebelum vs sesudah</p>
+            <canvas id="pbkChartRadar" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Peningkatan Tertinggi</div>
+            <p class="card-sub">Peserta dengan kenaikan rata-rata skor terbesar</p>
+            <div id="pbkInsightUp"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Perlu Perhatian</div>
+            <p class="card-sub">Peserta dengan skor menurun atau tidak berubah</p>
+            <div id="pbkInsightDown"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Daftar Peserta</div>
+          <div class="table-wrap"><table class="data-table" id="pbkParticipantTable"></table></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Unduh Data</div>
+          <p class="card-sub">File Excel mengikuti filter yang sedang aktif.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="pbkDownloadPre">Unduh Data Pre-Test</button>
+            <button class="btn" id="pbkDownloadPost">Unduh Data Post-Test</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Buat Laporan Resmi (Excel &amp; PDF)</div>
+          <p class="card-sub">Laporan "Hasil Analisis" format resmi (kop surat, tabel skor per peserta).</p>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Jenis laporan</label>
+              <select id="pbkRepJenis">
+                <option value="Pre-Test">Pre-Test</option>
+                <option value="Post-Test">Post-Test</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Program pelatihan (untuk laporan ini)</label>
+              <select id="pbkRepProgram"></select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Nama kompetensi *</label>
+              <input type="text" id="pbkRepKompetensi" placeholder="mis. INDUSTRI DAN JASA">
+              <div class="field-hint" id="pbkRepKompetensiPreview"></div>
+            </div>
+            <div class="field">
+              <label class="field-label">Pratinjau judul program</label>
+              <div class="field-hint" id="pbkRepProgramPreview" style="margin-top:9px;">&ndash;</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Tanggal mulai pelatihan</label>
+              <input type="date" id="pbkRepTglMulai">
+            </div>
+            <div class="field">
+              <label class="field-label">Tanggal berakhir pelatihan</label>
+              <input type="date" id="pbkRepTglSelesai">
+            </div>
+          </div>
+          <div class="field-hint" id="pbkRepDatePreview" style="margin-bottom:12px;"></div>
+
+          <button class="btn btn-primary" id="pbkGenerateReportBtn">Buat Laporan</button>
+          <div id="pbkReportMsg"></div>
+
+          <div id="pbkReportDownloads" style="display:none; margin-top:14px; gap:10px;">
+            <button class="btn" id="pbkDownloadReportXlsx">Unduh Excel</button>
+            <button class="btn" id="pbkConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal detail peserta (PBK) -->
+<div class="modal-backdrop" id="pbkModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="pbkModalName">&ndash;</h3>
+        <p id="pbkModalSub">&ndash;</p>
+      </div>
+      <button class="modal-close" id="pbkModalClose">&times;</button>
+    </div>
+    <div class="detail-grid" id="pbkModalDetails"></div>
+    <canvas id="pbkModalRadar" height="220"></canvas>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/monev.js"></script>
+<script src="js/pbk.js"></script>
+</body>
+</html>
