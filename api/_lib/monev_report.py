@@ -5,9 +5,11 @@ import re
 import difflib
 from pathlib import Path
 from io import BytesIO
+from copy import copy
 
 import openpyxl
 from openpyxl.styles import Border, Side, Font, Alignment
+from openpyxl.worksheet.page import PageMargins
 from openpyxl.utils import get_column_letter
 from openpyxl.drawing.image import Image as ExcelImage
 
@@ -214,6 +216,37 @@ def _fix_secondary_header_numbers(ws):
             ws[f"{col}{row}"] = DEFAULT_CAPACITY + i + 1
 
 
+def _stabilize_master_table(ws):
+    thin = Side(style="thin", color="000000")
+    for row in range(13, 46):
+        for col in range(3, 28):
+            cell = ws.cell(row=row, column=col)
+            border = cell.border
+            cell.border = Border(
+                left=border.left if border.left.style else thin,
+                right=border.right if border.right.style else thin,
+                top=border.top if border.top.style else thin,
+                bottom=border.bottom if border.bottom.style else thin,
+            )
+            if row not in HEADER_ROWS:
+                cell.alignment = copy(cell.alignment)
+                cell.alignment = Alignment(
+                    horizontal="center", vertical="center",
+                    wrap_text=cell.alignment.wrap_text,
+                )
+
+
+def _configure_print_layout(ws):
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.paperSize = ws.PAPERSIZE_A4
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+    ws.sheet_properties.pageSetUpPr.fitToPage = True
+    ws.page_margins = PageMargins(left=0.2, right=0.2, top=0.35, bottom=0.35, header=0.15, footer=0.15)
+    ws.print_options.horizontalCentered = True
+    ws.print_title_rows = "10:13"
+
+
 def _update_divisor_everywhere(wb, n_respondents: int, use_secondary: bool):
     sum_range = "C{r}:R{r},T{r}:AA{r}" if use_secondary else "C{r}:R{r}"
     for ws in wb.worksheets:
@@ -316,7 +349,10 @@ def generate_official_report(
         ws_master.add_image(logo)
 
     _fix_secondary_header_numbers(ws_master)
+    _stabilize_master_table(ws_master)
     _sync_titles_and_separator_lines(wb)
+    for sheet in wb.worksheets:
+        _configure_print_layout(sheet)
 
     ws_master["A6"] = REPORT_TITLE
     if training_title:
