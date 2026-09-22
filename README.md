@@ -66,12 +66,23 @@ konfigurasi build tambahan.
 
 ## Menjalankan lokal
 
+### Cara 1: Menggunakan Python (Direkomendasikan)
+
+Cukup jalankan perintah berikut di terminal:
+
+```bash
+python server.py
+```
+
+Lalu buka browser di: **http://localhost:5000**
+
+### Cara 2: Menggunakan Vercel CLI
+
 ```bash
 npm i -g vercel
-cd eval-suite
 vercel dev
 ```
-Buka http://localhost:3000
+Buka browser di: **http://localhost:3000**
 
 ## Catatan batasan platform
 

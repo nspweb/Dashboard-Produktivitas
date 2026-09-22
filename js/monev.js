@@ -4,6 +4,7 @@
     programCol: null,
     timestampCol: null,
     infoCol: null,
+    instructorCol: null,
     scoreColMap: {},
     commentColMap: {},
     selectedPrograms: new Set(),
@@ -82,6 +83,7 @@
       state.programCol = data.program_col;
       state.timestampCol = data.timestamp_col;
       state.infoCol = data.info_col;
+      state.instructorCol = data.instructor_col;
       state.scoreColMap = data.score_col_map;
       state.commentColMap = data.comment_col_map;
       state.selectedPrograms = new Set(getPrograms());
@@ -123,6 +125,8 @@
     const opts = programs.map((p) => `<option value="${Util.escapeHtml(p)}">${Util.escapeHtml(p)}</option>`).join("");
     $("monevRecapProgram").innerHTML = opts;
     $("monevReportProgram").innerHTML = opts;
+    updateRecapInfo();
+    updateReportInfo();
   }
 
   function filteredRows() {
@@ -310,6 +314,24 @@
     const program = $("monevReportProgram").value;
     const rows = state.rows.filter((r) => String(r[state.programCol]) === program);
     const matched = Object.keys(state.scoreColMap).length;
+
+    if (state.instructorCol && rows.length) {
+      const instructors = rows
+        .map((r) => r[state.instructorCol])
+        .filter((v) => v !== null && v !== undefined && String(v).trim() !== "");
+      if (instructors.length) {
+        const freq = {};
+        instructors.forEach((n) => {
+          const name = String(n).trim();
+          freq[name] = (freq[name] || 0) + 1;
+        });
+        const topInstructor = Object.keys(freq).sort((a, b) => freq[b] - freq[a])[0];
+        if (topInstructor) {
+          $("monevInstructorName").value = topInstructor;
+        }
+      }
+    }
+
     Util.clear($("monevReportInfo"));
     let html = `<div class="kpi-row" style="margin-bottom:12px;">
       <div class="kpi-card"><div class="kpi-value num">${rows.length}</div><div class="kpi-label">Jumlah Peserta</div></div>

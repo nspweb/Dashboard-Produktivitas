@@ -28,9 +28,24 @@ def best_match(canonical: str, columns, cutoff: float = 0.55):
     return None
 
 
-PROGRAM_CANONICAL = "Program pelatihan yang diikuti"
+PROGRAM_CANONICALS = [
+    "Program pelatihan yang diikuti",
+    "Program pelatihan yang di ikuti",
+    "Program pelatihan",
+    "Nama program pelatihan",
+]
 TIMESTAMP_CANONICAL = "Timestamp"
-INFO_SOURCE_CANONICAL = "Dari mana anda mendapatkan informasi tentang pelatihan"
+INFO_SOURCE_CANONICALS = [
+    "Dari mana anda mendapatkan informasi tentang pelatihan",
+    "Dari mana anda mendapatkan informasi tentang pelatihan?",
+    "Sumber informasi pelatihan",
+]
+INSTRUCTOR_CANONICALS = [
+    "Nama Instruktur",
+    "Instruktur",
+    "Nama Instruktur Pelatihan",
+    "Nama Pengajar",
+]
 
 SCORE_QUESTIONS = {
     "Info mudah didapat": "Apakah informasi pelatihan mudah untuk didapatkan?",
@@ -47,9 +62,9 @@ SCORE_QUESTIONS = {
     "Sikap & teladan instruktur": "Bagaimana sikap, disiplin, penampilan, dan teladan Instruktur selama pelatihan?",
     "Pelayanan petugas": "Bagaimana pelayanan petugas terhadap Peserta Pelatihan?",
     "Jadwal sesuai rencana": "Apakah pelaksanaan jadwal pelatihan sudah sesuai dengan rencana?",
-    "Perlengkapan tepat waktu": "Apakah perlengkapan Peserta Pelatihan training material diberikan tepat waktu",
-    "Sarana pelatihan memadai": "Apakah sarana prasarana fasilitas pelatihan sudah memadai",
-    "Sarana penunjang memadai": "Apakah sarana prasarana fasilitas penunjang pelatihan sudah memadai",
+    "Perlengkapan tepat waktu": "Apakah perlengkapan Peserta Pelatihan (training material) diberikan tepat waktu? (contoh: atribut pelatihan/seragam/Alat Pelindung Diri/modul/materi/ATK/bahan/ konten/dll)",
+    "Sarana pelatihan memadai": "Apakah sarana/prasarana/fasilitas pelatihan sudah memadai? (contoh: kelas/workshop/mesin/alat/website sistem manajemen pembelajaran/dll)",
+    "Sarana penunjang memadai": "Apakah sarana/prasarana/fasilitas penunjang pelatihan sudah memadai? (contoh: asrama/tempat ibadah/kantin/toilet/perpustakaan/website lembaga pelatihan/dll)",
 }
 
 COMMENT_LABELS = {
@@ -60,21 +75,32 @@ COMMENT_LABELS = {
 }
 
 
+def match_any(canonicals, columns, cutoff: float = 0.55):
+    if isinstance(canonicals, str):
+        canonicals = [canonicals]
+    for c in canonicals:
+        match = best_match(c, columns, cutoff=cutoff)
+        if match:
+            return match
+    return None
+
+
 def process_dataframe(df_raw):
-    """Deteksi kolom program/timestamp/info/skor/komentar pada df mentah.
+    """Deteksi kolom program/timestamp/info/instruktur/skor/komentar pada df mentah.
     Mengembalikan dict siap dipakai endpoint /api/monev/process."""
     import pandas as pd
 
     all_columns = list(df_raw.columns)
 
-    program_col = best_match(PROGRAM_CANONICAL, all_columns)
+    program_col = match_any(PROGRAM_CANONICALS, all_columns)
     if not program_col:
         raise ValueError(
             "Kolom 'Program pelatihan yang diikuti' tidak ditemukan di sheet ini. "
             "Pastikan file yang diupload adalah hasil Google Form evaluasi pelatihan."
         )
     timestamp_col = best_match(TIMESTAMP_CANONICAL, all_columns)
-    info_col = best_match(INFO_SOURCE_CANONICAL, all_columns)
+    info_col = match_any(INFO_SOURCE_CANONICALS, all_columns)
+    instructor_col = match_any(INSTRUCTOR_CANONICALS, all_columns)
 
     score_col_map = {}
     for label, question in SCORE_QUESTIONS.items():
@@ -104,6 +130,7 @@ def process_dataframe(df_raw):
         "program_col": program_col,
         "timestamp_col": timestamp_col,
         "info_col": info_col,
+        "instructor_col": instructor_col,
         "score_col_map": score_col_map,
         "comment_col_map": comment_col_map,
         "rows": df_raw.to_dict(orient="records"),
