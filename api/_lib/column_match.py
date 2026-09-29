@@ -100,8 +100,6 @@ def process_dataframe(df_raw):
         )
     timestamp_col = best_match(TIMESTAMP_CANONICAL, all_columns)
     info_col = match_any(INFO_SOURCE_CANONICALS, all_columns)
-    instructor_col = match_any(INSTRUCTOR_CANONICALS, all_columns)
-
     score_col_map = {}
     for label, question in SCORE_QUESTIONS.items():
         match = best_match(question, all_columns)
@@ -120,6 +118,35 @@ def process_dataframe(df_raw):
             del score_col_map[label]
         else:
             df_raw[col] = numeric_series
+
+    # Deteksi kolom instruktur: hindari kolom yang sudah dipakai untuk skor/komentar/pertanyaan
+    used_cols = set(score_col_map.values()) | set(comment_col_map.values()) | {program_col, timestamp_col, info_col}
+    candidate_cols = [c for c in all_columns if c not in used_cols]
+
+    instructor_col = None
+    # 1) Coba cocokkan dengan INSTRUCTOR_CANONICALS pada candidate_cols
+    matched_cand = match_any(INSTRUCTOR_CANONICALS, candidate_cols)
+    if matched_cand:
+        # Pastikan kolom ini bukan numerik
+        non_empty = df_raw[matched_cand].dropna().astype(str).str.strip()
+        non_empty = non_empty[non_empty != ""]
+        if len(non_empty) > 0:
+            numeric_count = pd.to_numeric(non_empty, errors="coerce").notna().sum()
+            if numeric_count / len(non_empty) < 0.5:
+                instructor_col = matched_cand
+
+    # 2) Jika belum ketemu, cari kolom yang namanya mengandung 'instruktur' / 'pengajar' di luar pertanyaan
+    if not instructor_col:
+        for c in candidate_cols:
+            norm_c = normalize(c)
+            if ("instruktur" in norm_c or "pengajar" in norm_c) and not any(w in norm_c for w in ["apakah", "bagaimana", "saran", "komentar", "keluhan"]):
+                non_empty = df_raw[c].dropna().astype(str).str.strip()
+                non_empty = non_empty[non_empty != ""]
+                if len(non_empty) > 0:
+                    numeric_count = pd.to_numeric(non_empty, errors="coerce").notna().sum()
+                    if numeric_count / len(non_empty) < 0.5:
+                        instructor_col = c
+                        break
 
     if timestamp_col:
         df_raw[timestamp_col] = pd.to_datetime(df_raw[timestamp_col], errors="coerce").astype(str)

@@ -304,6 +304,9 @@
     preview.textContent = end < start ? "Tanggal selesai harus sama atau setelah tanggal mulai." : `Pratinjau tanggal: ${formatMonevDateRange(start, end)}`;
   }
 
+  $("monevTrainingTitle").addEventListener("input", () => {
+    $("monevTrainingTitle").dataset.autoFilled = "0";
+  });
   $("monevDateStart").addEventListener("change", () => {
     $("monevDateEnd").min = $("monevDateStart").value;
     refreshMonevDatePreview();
@@ -315,10 +318,16 @@
     const rows = state.rows.filter((r) => String(r[state.programCol]) === program);
     const matched = Object.keys(state.scoreColMap).length;
 
+    // Otomatis isi Nama Pelatihan dengan program terpilih jika belum diisi atau saat ganti program
+    if (program && (!$("monevTrainingTitle").value || $("monevTrainingTitle").dataset.autoFilled === "1")) {
+      $("monevTrainingTitle").value = program;
+      $("monevTrainingTitle").dataset.autoFilled = "1";
+    }
+
     if (state.instructorCol && rows.length) {
       const instructors = rows
         .map((r) => r[state.instructorCol])
-        .filter((v) => v !== null && v !== undefined && String(v).trim() !== "");
+        .filter((v) => v !== null && v !== undefined && String(v).trim() !== "" && isNaN(Number(String(v).trim())));
       if (instructors.length) {
         const freq = {};
         instructors.forEach((n) => {
