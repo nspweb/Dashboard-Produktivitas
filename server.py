@@ -1,6 +1,7 @@
 """Local Development Server untuk Dasbor Produktivitas & Monev BPVP.
 Menjalankan frontend statis sekaligus semua API endpoint secara lokal tanpa perlu Vercel CLI.
 """
+import os
 import sys
 from pathlib import Path
 from flask import Flask, send_file, jsonify
@@ -8,6 +9,16 @@ from flask import Flask, send_file, jsonify
 ROOT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT_DIR))
 sys.path.insert(0, str(ROOT_DIR / "api"))
+
+# Load .env file jika ada
+env_file = ROOT_DIR / ".env"
+if env_file.exists():
+    with open(env_file, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip().strip("\"'"))
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50MB
