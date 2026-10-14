@@ -12,9 +12,13 @@
 <div class="app-shell">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">EP</div>
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
       <div class="brand-text">
-        <div class="brand-title">Evaluasi Pelatihan</div>
+        <div class="brand-title">BPVP Kendari</div>
         <div class="brand-sub">Dasbor &amp; Laporan Resmi</div>
       </div>
     </div>
@@ -22,15 +26,27 @@
     <nav class="nav-group">
       <div class="nav-label">SISTEM</div>
       <div class="nav-item active" data-nav="monev">
-        <span class="nav-icon">&#9633;</span> Rekap Monev
+        <span class="nav-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </span> Rekap Monev
       </div>
       <div class="nav-item" data-nav="pbk">
-        <span class="nav-icon">&#9670;</span> Pre &amp; Post-Test
+        <span class="nav-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+            <path d="m9 14 2 2 4-4"/>
+          </svg>
+        </span> Pre &amp; Post-Test
       </div>
     </nav>
 
     <div class="nav-status" id="sidebarStatus">
-      <b>Belum ada data</b>
+      <b><span class="status-pulse-dot"></span>Belum ada data</b>
       Unggah file pada salah satu sistem untuk mulai.
     </div>
   </aside>
@@ -39,9 +55,10 @@
 
     <!-- ============================= MONEV ============================= -->
     <section id="view-monev" class="view active">
-      <div class="page-header page-header-monev">
+      <div class="page-header">
+        <div class="header-badge"><span class="badge-dot"></span>KEMNAKER RI &middot; EVALUASI PELATIHAN</div>
         <h1 class="page-title">Rekap Monev Penyelenggaraan Pelatihan</h1>
-        <p class="page-sub">Filter, analisis, dan ekspor data evaluasi peserta pelatihan.</p>
+        <p class="page-sub">Filter data responden, visualisasi indikator kepuasan, dan ekspor laporan resmi BPVP.</p>
       </div>
 
       <!-- Upload -->
@@ -52,6 +69,13 @@
 
         <label class="dropzone" id="monevDropzone">
           <input type="file" id="monevFileInput" accept=".xlsx">
+          <div class="dz-icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
           <div class="dz-title">Klik untuk pilih file, atau seret ke sini</div>
           <div class="dz-hint">Format .xlsx &middot; maksimum 15 MB</div>
         </label>
@@ -183,22 +207,30 @@
     <!-- ============================= PBK ============================= -->
     <section id="view-pbk" class="view">
       <div class="page-header">
-        <h1 class="page-title">Dasbor Produktivitas Pelatihan</h1>
-        <p class="page-sub">Perbandingan hasil Pre-Test dan Post-Test peserta pelatihan.</p>
+        <div class="header-badge"><span class="badge-dot"></span>PRODUKTIVITAS PELATIHAN</div>
+        <h1 class="page-title">Dasbor Evaluasi Pre-Test &amp; Post-Test</h1>
+        <p class="page-sub">Perbandingan capaian kompetensi peserta sebelum dan sesudah mengikuti pelatihan.</p>
       </div>
 
       <div class="card upload-card" id="pbkUploadCard">
         <div class="upload-kicker">MULAI DARI SINI</div>
         <div class="card-title"><span class="step-badge">1</span>Unggah Data Pre-Test &amp; Post-Test</div>
-        <p class="card-sub">Unggah minimal salah satu file (.xlsx) hasil Google Form. Kolom dideteksi otomatis.</p>
+        <p class="card-sub">Unggah file Excel (.xlsx) hasil Pre-Test dan Post-Test. Kolom dideteksi otomatis.</p>
 
         <div class="field-row">
           <div>
             <label class="field-label">File Pre-Test (.xlsx)</label>
             <label class="dropzone" id="pbkPreDropzone">
               <input type="file" id="pbkPreFileInput" accept=".xlsx">
+              <div class="dz-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
               <div class="dz-title">Pilih file Pre-Test</div>
-              <div class="dz-hint">.xlsx</div>
+              <div class="dz-hint">Format .xlsx</div>
             </label>
             <div id="pbkPreFileChip"></div>
           </div>
@@ -206,8 +238,15 @@
             <label class="field-label">File Post-Test (.xlsx)</label>
             <label class="dropzone" id="pbkPostDropzone">
               <input type="file" id="pbkPostFileInput" accept=".xlsx">
+              <div class="dz-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
               <div class="dz-title">Pilih file Post-Test</div>
-              <div class="dz-hint">.xlsx</div>
+              <div class="dz-hint">Format .xlsx</div>
             </label>
             <div id="pbkPostFileChip"></div>
           </div>

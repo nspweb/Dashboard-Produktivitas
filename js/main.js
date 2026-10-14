@@ -35,6 +35,8 @@ function updateSidebarStatus(text, sub) {
   if (!el) return;
   el.replaceChildren();
   const title = document.createElement("b");
-  title.textContent = text;
+  const dot = document.createElement("span");
+  dot.className = "status-pulse-dot";
+  title.append(dot, document.createTextNode(" " + text));
   el.append(title, document.createTextNode(sub || ""));
 }
