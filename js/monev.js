@@ -341,10 +341,12 @@
       }
     }
 
+    const commentMatched = Object.keys(state.commentColMap).length;
     Util.clear($("monevReportInfo"));
     let html = `<div class="kpi-row" style="margin-bottom:12px;">
       <div class="kpi-card"><div class="kpi-value num">${rows.length}</div><div class="kpi-label">Jumlah Peserta</div></div>
       <div class="kpi-card"><div class="kpi-value num">${matched}/17</div><div class="kpi-label">Pertanyaan Terisi</div></div>
+      <div class="kpi-card"><div class="kpi-value num">${commentMatched}/4</div><div class="kpi-label">Kolom Komentar</div></div>
     </div>`;
     if (rows.length > 16) html += `<div class="notice notice-info">Jumlah peserta (${rows.length}) lebih dari 16, kolom cadangan template akan otomatis dipakai (kapasitas maksimum 24 peserta).</div>`;
     if (rows.length > 24) html += `<div class="notice notice-warn">Jumlah peserta (${rows.length}) melebihi kapasitas maksimum template (24). Hanya 24 peserta pertama yang akan dimasukkan.</div>`;
@@ -375,8 +377,13 @@
     Util.setBusy(btn, true, "Membuat laporan...");
     try {
       const res = await Api.postJson("/api/monev/report", {
-        rows, score_col_map: state.scoreColMap, program_name: program,
-        training_title, date_text, instructor_name,
+        rows,
+        score_col_map: state.scoreColMap,
+        comment_col_map: state.commentColMap,
+        program_name: program,
+        training_title,
+        date_text,
+        instructor_name,
       });
       const disp = res.headers.get("content-disposition") || "";
       const match = disp.match(/filename="?([^"]+)"?/);

@@ -28,6 +28,7 @@ def handler(path):
     body = request.get_json(silent=True) or {}
     rows = body.get("rows") or []
     score_col_map = body.get("score_col_map") or {}
+    comment_col_map = body.get("comment_col_map") or {}
     program_name = body.get("program_name") or ""
     training_title = body.get("training_title") or ""
     date_text = body.get("date_text") or ""
@@ -47,6 +48,7 @@ def handler(path):
             training_title=training_title,
             date_text=date_text,
             instructor_name=instructor_name,
+            comment_col_map=comment_col_map,
         )
     except ValueError as e:
         return jsonify({"error": str(e)}), 400

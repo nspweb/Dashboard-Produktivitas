@@ -67,12 +67,35 @@ SCORE_QUESTIONS = {
     "Sarana penunjang memadai": "Apakah sarana/prasarana/fasilitas penunjang pelatihan sudah memadai? (contoh: asrama/tempat ibadah/kantin/toilet/perpustakaan/website lembaga pelatihan/dll)",
 }
 
-COMMENT_LABELS = {
-    "Komentar/saran program pelatihan": "Komentar dan saran Anda terhadap program pelatihan",
-    "Komentar/saran instruktur": "Komentar dan saran Anda terhadap Instruktur",
-    "Komentar/saran penyelenggaraan": "Komentar dan saran Anda terhadap penyelenggaraan pelatihan",
-    "Keluhan penyelenggaraan": "Keluhan terhadap penyelenggaraan pelatihan",
+COMMENT_CANONICALS = {
+    "Komentar/saran program pelatihan": [
+        "Komentar dan saran Anda terhadap program pelatihan",
+        "Komentar dan saran Anda terhadap Pelatihan",
+        "Komentar dan saran terhadap pelatihan",
+        "Komentar dan saran terhadap program pelatihan",
+        "Komentar saran pelatihan",
+    ],
+    "Komentar/saran instruktur": [
+        "Komentar dan saran Anda terhadap Instruktur",
+        "Komentar dan saran terhadap Instruktur",
+        "Komentar dan saran instruktur",
+        "Komentar saran instruktur",
+    ],
+    "Komentar/saran penyelenggaraan": [
+        "Komentar dan saran Anda terhadap penyelenggaraan pelatihan",
+        "Komentar dan saran terhadap penyelenggaraan pelatihan",
+        "Komentar dan saran penyelenggaraan",
+        "Komentar saran penyelenggaraan pelatihan",
+    ],
+    "Keluhan penyelenggaraan": [
+        "Keluhan terhadap penyelenggaraan pelatihan",
+        "Keluhan penyelenggaraan pelatihan",
+        "Keluhan terhadap penyelenggaraan",
+        "Keluhan pelatihan",
+    ],
 }
+
+COMMENT_LABELS = {k: v[0] for k, v in COMMENT_CANONICALS.items()}
 
 
 def match_any(canonicals, columns, cutoff: float = 0.55):
@@ -107,8 +130,8 @@ def process_dataframe(df_raw):
             score_col_map[label] = match
 
     comment_col_map = {}
-    for label, question in COMMENT_LABELS.items():
-        match = best_match(question, all_columns)
+    for label, canonicals in COMMENT_CANONICALS.items():
+        match = match_any(canonicals, all_columns)
         if match:
             comment_col_map[label] = match
 
