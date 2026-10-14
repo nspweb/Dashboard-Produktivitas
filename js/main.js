@@ -28,6 +28,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  // Theme switcher (Terang / Gelap)
+  const currentTheme = localStorage.getItem("bpvp-dashboard-theme") || "light";
+  applyTheme(currentTheme);
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    try { localStorage.setItem("bpvp-dashboard-theme", theme); } catch(e) {}
+    const lightBtn = document.getElementById("themeLightBtn");
+    const darkBtn = document.getElementById("themeDarkBtn");
+    if (lightBtn && darkBtn) {
+      lightBtn.classList.toggle("active", theme === "light");
+      darkBtn.classList.toggle("active", theme === "dark");
+    }
+  }
+
+  document.getElementById("themeLightBtn")?.addEventListener("click", () => applyTheme("light"));
+  document.getElementById("themeDarkBtn")?.addEventListener("click", () => applyTheme("dark"));
 });
 
 function updateSidebarStatus(text, sub) {

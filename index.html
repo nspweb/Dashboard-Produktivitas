@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dasbor Evaluasi &amp; Produktivitas Pelatihan</title>
 <link rel="stylesheet" href="css/style.css">
+<script>
+  (function() {
+    try {
+      var t = localStorage.getItem("bpvp-dashboard-theme") || "light";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch(e) {}
+  })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -45,9 +53,19 @@
       </div>
     </nav>
 
-    <div class="nav-status" id="sidebarStatus">
-      <b><span class="status-pulse-dot"></span>Belum ada data</b>
-      Unggah file pada salah satu sistem untuk mulai.
+    <div class="sidebar-footer">
+      <div class="theme-toggle-wrap">
+        <span>Tema Tampilan</span>
+        <div class="theme-toggle-group">
+          <button type="button" class="theme-toggle-btn active" id="themeLightBtn" title="Mode Terang (Clean Institutional Look)">☀️ Terang</button>
+          <button type="button" class="theme-toggle-btn" id="themeDarkBtn" title="Mode Gelap (Midnight Slate)">🌙 Gelap</button>
+        </div>
+      </div>
+
+      <div class="nav-status" id="sidebarStatus">
+        <b><span class="status-pulse-dot"></span>Belum ada data</b>
+        Unggah file pada salah satu sistem untuk mulai.
+      </div>
     </div>
   </aside>
 

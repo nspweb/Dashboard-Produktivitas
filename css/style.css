@@ -2,43 +2,45 @@
    DASBOR EVALUASI & PRODUKTIVITAS PELATIHAN - BPVP KENDARI
    Desain: Executive Institutional Clean Look
    Tipografi: Plus Jakarta Sans (Modern Geometric UI) + JetBrains Mono (Numbers)
-   Palet: Deep Midnight Slate + Clean White + Kemnaker Golden Amber + Tech Blue
+   Kontras: 100% High-Contrast Safe (Light Mode & Dark Mode)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
+/* ==========================================================================
+   1. COLOR TOKENS (LIGHT THEME DEFAULT)
+   ========================================================================== */
 :root {
-  /* Brand Primary (Executive Slate) */
-  --ink: #0f172a;
-  --navy: #0f172a;
-  --navy-dark: #0a0f1d;
-  --navy-soft: #1e293b;
-  --navy-light: #334155;
+  /* Typography / Text */
+  --ink: #0f172a;               /* Heading utama - sangat jelas & tajam */
+  --text: #1e293b;              /* Teks reguler */
+  --text-muted: #64748b;        /* Teks sekunder / label */
+  --text-faint: #94a3b8;        /* Teks hint / keterangan kecil */
+
+  /* Surfaces & Backgrounds */
+  --bg: #f8fafc;                /* Latar belakang dasbor */
+  --surface: #ffffff;           /* Permukaan kartu / kontainer utama */
+  --surface-alt: #f1f5f9;       /* Permukaan sekunder (tabbar, th table, hover) */
+  --surface-hover: #f8fafc;     /* Hover state */
   
-  /* Brand Accent (Kemnaker Golden Amber) */
+  /* Borders */
+  --border: #e2e8f0;            /* Border halus */
+  --border-strong: #cbd5e1;     /* Border input / button */
+  --border-focus: #2563eb;      /* Border aktif */
+
+  /* Brand Colors */
+  --navy: #0f172a;
+  --navy-soft: #1e293b;
   --gold: #d97706;
   --gold-hover: #b45309;
   --gold-soft: #fef3c7;
   --gold-faint: #fffbeb;
-  
-  /* Interactive Accent (Modern Blue) */
+
+  /* Accent Interactive (Blue) */
   --blue: #2563eb;
   --blue-hover: #1d4ed8;
   --blue-soft: #eff6ff;
   --blue-border: #bfdbfe;
-
-  /* Surfaces & Backgrounds */
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --surface-alt: #f1f5f9;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --border-focus: #3b82f6;
-
-  /* Typography Colors */
-  --text: #1e293b;
-  --text-muted: #64748b;
-  --text-faint: #94a3b8;
 
   /* Status Colors */
   --success: #059669;
@@ -56,12 +58,12 @@
   --radius-sm: 8px;
   --radius: 12px;
   --radius-md: 14px;
-  --radius-lg: 18px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
 
   --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
   --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
   --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 
@@ -69,34 +71,120 @@
   color-scheme: light;
 }
 
+/* ==========================================================================
+   2. THEME TOKENS: LIGHT (DEFAULT / FORCED) & DARK (MODE / SYSTEM)
+   Semua surface & teks dibalik secara konsisten sehingga tidak ada putih-di-atas-putih
+   ========================================================================== */
+[data-theme="light"] {
+  color-scheme: light;
+  --ink: #0f172a;               /* Heading utama - sangat jelas & tajam */
+  --text: #1e293b;              /* Teks reguler */
+  --text-muted: #475569;        /* Teks sekunder / label kontras */
+  --text-faint: #64748b;        /* Teks hint / keterangan kecil */
+
+  --bg: #f8fafc;                /* Latar belakang dasbor */
+  --surface: #ffffff;           /* Permukaan kartu / kontainer utama */
+  --surface-alt: #f1f5f9;       /* Permukaan sekunder (tabbar, th table, hover) */
+  --surface-hover: #e2e8f0;     /* Hover state */
+  
+  --border: #e2e8f0;            /* Border halus */
+  --border-strong: #cbd5e1;     /* Border input / button */
+  --border-focus: #2563eb;      /* Border aktif */
+
+  --navy: #0f172a;
+  --navy-soft: #1e293b;
+  --gold: #d97706;
+  --gold-hover: #b45309;
+  --gold-soft: #fef3c7;
+  --gold-faint: #fffbeb;
+
+  --blue: #2563eb;
+  --blue-hover: #1d4ed8;
+  --blue-soft: #eff6ff;
+  --blue-border: #bfdbfe;
+
+  --success: #059669;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --danger: #e11d48;
+  --danger-bg: #fff1f2;
+  --danger-border: #fecdd3;
+  --warn: #d97706;
+  --warn-bg: #fffbeb;
+  --warn-border: #fde68a;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #ffffff;             /* Teks putih tajam di dark mode */
+  --text: #e2e8f0;            /* Teks terang */
+  --text-muted: #94a3b8;      /* Teks sekunder */
+  --text-faint: #64748b;      /* Hint / keterangan */
+
+  --bg: #0b1120;              /* Latar gelap bersih */
+  --surface: #131c31;         /* Kartu gelap */
+  --surface-alt: #1e293b;     /* Tabbar / hover gelap */
+  --surface-hover: #24324f;
+
+  --border: #24324f;          /* Border halus gelap */
+  --border-strong: #384c72;   /* Border input gelap */
+  --border-focus: #3b82f6;
+
+  --navy: #3b82f6;
+  --navy-soft: #1d4ed8;
+  --gold: #f59e0b;
+  --gold-hover: #d97706;
+  --gold-soft: #451a03;
+  --gold-faint: #271202;
+
+  --blue: #3b82f6;
+  --blue-hover: #60a5fa;
+  --blue-soft: #1e293b;
+  --blue-border: #2563eb;
+
+  --success: #34d399;
+  --success-bg: #064e3b;
+  --success-border: #047857;
+  --danger: #fb7185;
+  --danger-bg: #4c0519;
+  --danger-border: #9f1239;
+  --warn: #fbbf24;
+  --warn-bg: #451a03;
+  --warn-border: #92400e;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.5);
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
     color-scheme: dark;
-    --ink: #f8fafc;
-    --navy: #1e293b;
-    --navy-dark: #0f172a;
-    --navy-soft: #334155;
-    --navy-light: #94a3b8;
-    
+    --ink: #ffffff;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
+
+    --bg: #0b1120;
+    --surface: #131c31;
+    --surface-alt: #1e293b;
+    --surface-hover: #24324f;
+
+    --border: #24324f;
+    --border-strong: #384c72;
+    --border-focus: #3b82f6;
+
+    --navy: #3b82f6;
+    --navy-soft: #1d4ed8;
     --gold: #f59e0b;
     --gold-hover: #d97706;
-    --gold-soft: #3a2e12;
-    --gold-faint: #261f0d;
+    --gold-soft: #451a03;
+    --gold-faint: #271202;
 
     --blue: #3b82f6;
     --blue-hover: #60a5fa;
     --blue-soft: #1e293b;
     --blue-border: #2563eb;
-
-    --bg: #0b1120;
-    --surface: #131c31;
-    --surface-alt: #1a253e;
-    --border: #24324f;
-    --border-strong: #384c72;
-
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --text-faint: #64748b;
 
     --success: #34d399;
     --success-bg: #064e3b;
@@ -108,16 +196,15 @@
     --warn-bg: #451a03;
     --warn-border: #92400e;
 
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.45);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.5);
   }
 }
 
 /* ==========================================================================
-   RESET & DASAR
+   3. RESET & DASAR
    ========================================================================== */
-
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -135,11 +222,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Angka tabular untuk data metrik & tabel */
 .num, table td.num, .kpi-value, .cell-num {
   font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 button {
@@ -161,9 +247,8 @@ a:hover {
 }
 
 /* ==========================================================================
-   APP SHELL & SIDEBAR
+   4. APP SHELL & SIDEBAR
    ========================================================================== */
-
 .app-shell {
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
@@ -176,7 +261,7 @@ a:hover {
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -189,7 +274,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 4px 8px;
+  padding: 4px 6px;
 }
 
 .brand-mark {
@@ -201,8 +286,6 @@ a:hover {
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-weight: 800;
-  font-size: 15px;
   box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
   flex: none;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -238,7 +321,7 @@ a:hover {
   letter-spacing: 0.06em;
   color: #64748b;
   text-transform: uppercase;
-  padding: 8px 12px 4px;
+  padding: 6px 12px 2px;
 }
 
 .nav-item {
@@ -288,16 +371,70 @@ a:hover {
   transform: scale(1.08);
 }
 
-.nav-status {
+/* Sidebar Theme Toggle & Status */
+.sidebar-footer {
   margin-top: auto;
-  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.theme-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.theme-toggle-group {
+  display: flex;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: var(--radius-xs);
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94a3b8;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  color: #ffffff;
+}
+
+.theme-toggle-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.nav-status {
+  padding: 12px 14px;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
   font-size: 12px;
   color: #94a3b8;
   line-height: 1.45;
-  backdrop-filter: blur(8px);
 }
 
 .nav-status b {
@@ -318,6 +455,7 @@ a:hover {
   box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
   animation: pulse 2s infinite;
   display: inline-block;
+  flex: none;
 }
 
 @keyframes pulse {
@@ -327,9 +465,8 @@ a:hover {
 }
 
 /* ==========================================================================
-   MAIN CONTENT AREA
+   5. MAIN CONTENT AREA
    ========================================================================== */
-
 .main {
   width: 100%;
   max-width: none;
@@ -396,9 +533,8 @@ a:hover {
 }
 
 /* ==========================================================================
-   CARDS & CONTAINERS
+   6. CARDS & CONTAINERS
    ========================================================================== */
-
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -410,7 +546,7 @@ a:hover {
 }
 
 .card:hover {
-  border-color: #cbd5e1;
+  border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
 }
 
@@ -438,12 +574,11 @@ a:hover {
   line-height: 1.5;
 }
 
-/* Card Khusus Upload */
 .upload-card {
   position: relative;
   overflow: hidden;
   border-left: 4px solid var(--gold);
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface) 65%, var(--gold-faint) 100%);
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface) 75%, var(--gold-faint) 100%);
 }
 
 .upload-kicker {
@@ -472,9 +607,8 @@ a:hover {
 }
 
 /* ==========================================================================
-   DROPZONE & FILE UPLOAD
+   7. DROPZONE & FILE UPLOAD (KONTROL KONTRAS TINGGI)
    ========================================================================== */
-
 .dropzone {
   display: flex;
   flex-direction: column;
@@ -486,7 +620,8 @@ a:hover {
   border-radius: var(--radius-lg);
   padding: 30px 20px;
   text-align: center;
-  background: #ffffff;
+  background: var(--bg);            /* Selalu kontras dari permukaan kartu */
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -494,9 +629,9 @@ a:hover {
 
 .dropzone:hover, .dropzone.dragover {
   border-color: var(--blue);
-  background: #f0f7ff;
+  background: var(--blue-soft);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.07);
+  box-shadow: var(--shadow-md);
 }
 
 .dropzone:has(input:focus-visible) {
@@ -512,39 +647,40 @@ a:hover {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #eff6ff;
+  background: var(--blue-soft);
   color: var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease;
+  border: 1px solid var(--blue-border);
 }
 
 .dropzone:hover .dz-icon-wrap {
   transform: scale(1.08);
-  background: #dbeafe;
 }
 
 .dz-title {
-  color: var(--ink);
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 3px;
+  color: var(--ink) !important;
+  font-weight: 700;
+  font-size: 14.5px;
+  margin-bottom: 4px;
 }
 
 .dz-hint {
   font-size: 12.2px;
-  color: var(--text-faint);
+  color: var(--text-muted) !important;
   font-weight: 500;
 }
 
+/* File chip yang terunggah */
 .file-chip {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #ffffff;
-  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   padding: 12px 16px;
   margin-top: 14px;
@@ -553,32 +689,82 @@ a:hover {
 }
 
 .file-chip .dot {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--success);
   flex: none;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
 }
 
 .file-chip .name {
-  color: var(--ink);
-  font-weight: 600;
+  color: var(--ink) !important;
+  font-weight: 700;
   font-size: 13.5px;
   overflow-wrap: anywhere;
 }
 
 .file-chip .meta {
-  color: var(--text-muted);
+  color: var(--text-muted) !important;
   font-size: 12px;
   font-weight: 500;
   margin-top: 2px;
 }
 
 /* ==========================================================================
-   BUTTONS
+   8. TABBAR (SEGMENTED CONTROL KONTROL KONTRAS TINGGI)
    ========================================================================== */
+.tabbar {
+  display: inline-flex;
+  gap: 5px;
+  background: var(--surface-alt);
+  padding: 6px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  margin-bottom: 22px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
+.tab-btn {
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted) !important;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.tab-btn:hover {
+  color: var(--ink) !important;
+  background: rgba(125, 125, 125, 0.12);
+}
+
+.tab-btn.active {
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-strong) !important;
+}
+
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ==========================================================================
+   9. BUTTONS
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -598,8 +784,8 @@ a:hover {
 }
 
 .btn:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--surface-alt);
+  border-color: var(--border-strong);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -618,7 +804,7 @@ a:hover {
 .btn-primary {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-color: #0f172a;
-  color: #ffffff;
+  color: #ffffff !important;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.12);
 }
 
@@ -628,10 +814,24 @@ a:hover {
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
 }
 
+[data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #2563eb;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  }
+}
+
 .btn-gold {
   background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
   border-color: #b45309;
-  color: #ffffff;
+  color: #ffffff !important;
   box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
 }
 
@@ -664,9 +864,8 @@ a:hover {
 }
 
 /* ==========================================================================
-   INPUTS & FORM FIELDS
+   10. INPUTS & FORM FIELDS
    ========================================================================== */
-
 label.field-label {
   display: block;
   font-size: 12.8px;
@@ -699,7 +898,7 @@ select {
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .field {
@@ -719,9 +918,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   FILTER CHIPS (MULTI-SELECT)
+   11. FILTER CHIPS (MULTI-SELECT)
    ========================================================================== */
-
 .select-multi {
   display: flex;
   flex-wrap: wrap;
@@ -747,21 +945,20 @@ input:focus, select:focus, textarea:focus {
 .chip-toggle:hover {
   border-color: var(--border-strong);
   color: var(--ink);
-  background: #f8fafc;
+  background: var(--surface-alt);
 }
 
 .chip-toggle.on {
   background: var(--navy);
   border-color: var(--navy);
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
 }
 
 /* ==========================================================================
-   KPI CARDS (METRICS)
+   12. KPI CARDS (METRICS)
    ========================================================================== */
-
 .kpi-row {
   display: flex;
   gap: 14px;
@@ -789,7 +986,7 @@ input:focus, select:focus, textarea:focus {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #e2e8f0, #cbd5e1);
+  background: linear-gradient(90deg, var(--border), var(--border-strong));
 }
 
 .kpi-card:hover {
@@ -822,68 +1019,16 @@ input:focus, select:focus, textarea:focus {
 }
 
 .kpi-card.accent .kpi-value {
-  color: #fef08a;
+  color: #fef08a !important;
 }
 
 .kpi-card.accent .kpi-label {
-  color: #94a3b8;
+  color: #94a3b8 !important;
 }
 
 /* ==========================================================================
-   TABBAR (SEGMENTED CONTROL)
+   13. DATA TABLES
    ========================================================================== */
-
-.tabbar {
-  display: inline-flex;
-  gap: 4px;
-  background: #edf2f7;
-  padding: 5px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  margin-bottom: 22px;
-  max-width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.tab-btn {
-  padding: 8px 16px;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-  user-select: none;
-}
-
-.tab-btn:hover {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.tab-btn.active {
-  background: #ffffff;
-  color: var(--ink);
-  font-weight: 700;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
-}
-
-.tab-panel {
-  display: none;
-}
-.tab-panel.active {
-  display: block;
-  animation: fadeIn 0.2s ease-out;
-}
-
-/* ==========================================================================
-   DATA TABLES
-   ========================================================================== */
-
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -901,7 +1046,7 @@ table.data-table {
 
 table.data-table th {
   text-align: left;
-  background: #f8fafc;
+  background: var(--surface-alt);
   color: var(--text-muted);
   font-weight: 700;
   font-size: 11.8px;
@@ -914,14 +1059,14 @@ table.data-table th {
 
 table.data-table td {
   padding: 11px 16px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border);
   color: var(--text);
   white-space: nowrap;
   transition: background-color 0.12s ease;
 }
 
 table.data-table tbody tr:hover td {
-  background: #f8fafc;
+  background: var(--surface-alt);
 }
 
 table.data-table tbody tr:last-child td {
@@ -929,9 +1074,8 @@ table.data-table tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   GRID & LAYOUT
+   14. GRID & INSIGHTS
    ========================================================================== */
-
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -951,16 +1095,12 @@ table.data-table tbody tr:last-child td {
   }
 }
 
-/* ==========================================================================
-   INSIGHTS & BADGES
-   ========================================================================== */
-
 .insight-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border);
 }
 .insight-item:last-child {
   border-bottom: none;
@@ -997,9 +1137,8 @@ table.data-table tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   NOTICES & ALERTS
+   15. NOTICES & ALERTS
    ========================================================================== */
-
 .notice {
   border-radius: var(--radius-sm);
   padding: 12px 16px;
@@ -1013,31 +1152,31 @@ table.data-table tbody tr:last-child td {
 }
 
 .notice-info {
-  background: #f0f7ff;
-  color: #1e40af;
-  border: 1px solid #dbeafe;
-  border-left: 4px solid #3b82f6;
+  background: var(--blue-soft);
+  color: var(--blue-hover);
+  border: 1px solid var(--blue-border);
+  border-left: 4px solid var(--blue);
 }
 
 .notice-warn {
-  background: #fffbeb;
-  color: #92400e;
-  border: 1px solid #fef3c7;
-  border-left: 4px solid #f59e0b;
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid var(--warn-border);
+  border-left: 4px solid var(--gold);
 }
 
 .notice-error {
-  background: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fee2e2;
-  border-left: 4px solid #ef4444;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  border-left: 4px solid var(--danger);
 }
 
 .notice-success {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #dcfce7;
-  border-left: 4px solid #10b981;
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+  border-left: 4px solid var(--success);
 }
 
 .template-note {
@@ -1063,7 +1202,7 @@ table.data-table tbody tr:last-child td {
 }
 
 .template-note strong {
-  color: var(--navy-soft);
+  color: var(--ink);
 }
 
 #tab-monev-resmi .card, #pbkDashboard > .card:last-child {
@@ -1071,9 +1210,8 @@ table.data-table tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   COMMENTS & FEEDBACK
+   16. COMMENTS & FEEDBACK ACCORDION
    ========================================================================== */
-
 .comment-group {
   margin-bottom: 12px;
   border: 1px solid var(--border);
@@ -1093,7 +1231,7 @@ table.data-table tbody tr:last-child td {
   font-weight: 600;
   font-size: 13.5px;
   color: var(--ink);
-  background: #f8fafc;
+  background: var(--surface-alt);
   border-bottom: 1px solid transparent;
   transition: background 0.16s ease;
   user-select: none;
@@ -1101,7 +1239,7 @@ table.data-table tbody tr:last-child td {
 
 .comment-group[open] summary {
   border-bottom-color: var(--border);
-  background: #f1f5f9;
+  background: var(--surface-alt);
 }
 
 .comment-group ul {
@@ -1117,13 +1255,12 @@ table.data-table tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   MODAL
+   17. MODAL
    ========================================================================== */
-
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
   display: none;
   align-items: center;
@@ -1172,7 +1309,7 @@ table.data-table tbody tr:last-child td {
 }
 
 .modal-close {
-  background: #f1f5f9;
+  background: var(--surface-alt);
   border: none;
   font-size: 16px;
   cursor: pointer;
@@ -1187,7 +1324,7 @@ table.data-table tbody tr:last-child td {
 }
 
 .modal-close:hover {
-  background: #e2e8f0;
+  background: var(--border);
   color: var(--ink);
 }
 
@@ -1212,9 +1349,8 @@ table.data-table tbody tr:last-child td {
 }
 
 /* ==========================================================================
-   MISC & HELPERS
+   18. MISC HELPERS
    ========================================================================== */
-
 canvas {
   max-width: 100%;
 }
