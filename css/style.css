@@ -1143,12 +1143,17 @@ table.data-table tbody tr:last-child td {
   border-radius: var(--radius-sm);
   padding: 12px 16px;
   font-size: 13px;
+  margin-top: 12px;
   margin-bottom: 16px;
   line-height: 1.5;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   border-left: 4px solid transparent;
+}
+
+.notice:first-child {
+  margin-top: 0;
 }
 
 .notice-info {

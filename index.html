@@ -210,13 +210,14 @@
             </div>
             <div class="field-hint" id="monevDatePreview"></div>
 
-            <button class="btn btn-primary" id="monevGenerateReportBtn">Buat Laporan Resmi (.xlsx)</button>
-            <div id="monevReportMsg"></div>
-
-            <div id="monevReportDownloads" style="display:none; margin-top:14px; gap:10px; display:none;">
-              <button class="btn" id="monevDownloadReportXlsx">Unduh Laporan Resmi (.xlsx)</button>
-              <button class="btn" id="monevConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+            <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:16px;">
+              <button class="btn btn-primary" id="monevGenerateReportBtn">Buat Laporan Resmi (.xlsx)</button>
+              <div id="monevReportDownloads" style="display:none; gap:10px;">
+                <button class="btn" id="monevDownloadReportXlsx">Unduh Laporan Resmi (.xlsx)</button>
+                <button class="btn btn-gold" id="monevConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+              </div>
             </div>
+            <div id="monevReportMsg"></div>
           </div>
         </div>
       </div>
@@ -385,13 +386,14 @@
           </div>
           <div class="field-hint" id="pbkRepDatePreview" style="margin-bottom:12px;"></div>
 
-          <button class="btn btn-primary" id="pbkGenerateReportBtn">Buat Laporan</button>
-          <div id="pbkReportMsg"></div>
-
-          <div id="pbkReportDownloads" style="display:none; margin-top:14px; gap:10px;">
-            <button class="btn" id="pbkDownloadReportXlsx">Unduh Excel</button>
-            <button class="btn" id="pbkConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:16px;">
+            <button class="btn btn-primary" id="pbkGenerateReportBtn">Buat Laporan</button>
+            <div id="pbkReportDownloads" style="display:none; gap:10px;">
+              <button class="btn" id="pbkDownloadReportXlsx">Unduh Excel</button>
+              <button class="btn btn-gold" id="pbkConvertPdfBtn">Konversi &amp; Unduh PDF</button>
+            </div>
           </div>
+          <div id="pbkReportMsg"></div>
         </div>
       </div>
     </section>
